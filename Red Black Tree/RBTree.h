@@ -53,7 +53,7 @@ public:
 void insertBST(Node*& root, Node* pt)
 {
 	if (root == NULL) root= pt;
-	if (pt->color > root->data)
+	if (pt->data > root->data)
 	{
 		insertBST(root->right, pt);
 		root->right->parent = root;

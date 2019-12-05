@@ -14,7 +14,7 @@ void RBTree::leftRotate(Node*& root, Node*& pt)
 	{
 		pt->parent->left = pt_right;
 	}
-	else pt->parent->right = pt->right;
+	else pt->parent->right = pt_right;
 	pt_right->left = pt;
 	pt->parent = pt_right;
 }
@@ -57,9 +57,9 @@ void RBTree::fixViolation(Node*& root, Node*& pt)
 		grand_parent_pt = pt->parent->parent;
 		if (grand_parent_pt == NULL) return;
 		//A: nút cha là nút trái
-		if (parent_pt == pt->parent->left)
+		if (parent_pt == grand_parent_pt->left)
 		{
-			Node* uncle = pt->parent->right;
+			Node* uncle = grand_parent_pt->right;
 			//th1 node uncle->red
 			if(uncle!=NULL&&uncle->color==RED)
 			{
@@ -68,9 +68,10 @@ void RBTree::fixViolation(Node*& root, Node*& pt)
 				uncle->color = BLACK;
 				pt = grand_parent_pt;
 			}
+			//th2 node uncle--> black
 			else
 			{
-				//th2 nếu pt là nút phải của cha nó
+				// nếu pt là nút phải của cha nó
 				if (pt == parent_pt->right)
 				{
 					leftRotate(root, parent_pt);
@@ -83,10 +84,10 @@ void RBTree::fixViolation(Node*& root, Node*& pt)
 				pt = parent_pt;
 			}
 		}
-		//B 
+		//B : nút cha là nút bên phải
 		else
 		{
-			Node* uncle = parent_pt->left;
+			Node* uncle = grand_parent_pt->left;
 			//th1 nút chú cũng có màu đỏ
 			if (uncle != NULL && uncle->color == RED)
 			{
